@@ -1,12 +1,12 @@
 {
     "config": {
         "error": {
-            "cannot_connect": "Cannot not connect to the Duka one device",
+            "cannot_connect": "Cannot not connect to the Duka Smartfan device",
             "unknown": "Unknown error"
         },
         "step": {
             "user": {
-                "description": "You can find the Device Id in the Duka One App.",
+                "description": "You can find the Device Id in the Duka Smartfan App.",
                 "data": {
                     "name": "Name",
                     "device_id": "Device Id",
@@ -17,5 +17,5 @@
             }
         }
     },
-    "title": "Duka One"
+    "title": "Duka Smartfan"
 }

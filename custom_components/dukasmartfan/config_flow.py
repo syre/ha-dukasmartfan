@@ -1,7 +1,7 @@
-"""Config flow for Duka One integration."""
+"""Config flow for Duka Smartfan integration."""
 import logging
-import voluptuous as vol
 
+import voluptuous as vol
 from homeassistant import config_entries, exceptions
 from homeassistant.const import (
     CONF_DEVICE_ID,
@@ -11,8 +11,8 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import DOMAIN, CONF_STATICIP
 from . import DukaEntityComponent
+from .const import CONF_STATICIP, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def dovalidate(hass: HomeAssistantType, user_input):
     device_id = user_input[CONF_DEVICE_ID]
     password = user_input[CONF_PASSWORD]
     ip_address = user_input[CONF_IP_ADDRESS]
-    device = component.the_client.validate_device(device_id, password, ip_address)
+    device = component.client.validate_device(device_id, password, ip_address)
     if device is None:
         raise CannotConnect()
     if user_input[CONF_STATICIP]:
@@ -47,7 +47,7 @@ def dovalidate(hass: HomeAssistantType, user_input):
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Duka One."""
+    """Handle a config flow for Duka Smartfan."""
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH

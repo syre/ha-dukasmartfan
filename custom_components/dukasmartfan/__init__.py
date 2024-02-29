@@ -1,16 +1,16 @@
 """
-Duka One Integration.
+Duka Smartfan Integration.
 
 see http://www.dingus.dk for more information
 """
 import asyncio
 import logging
+
 import voluptuous as vol
+from duka_smartfan_sdk.dukaclient import Device, DukaClient
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_component import EntityComponent
-
-from dukaonesdk.dukaclient import DukaClient, Device
 
 from .const import DOMAIN
 
@@ -20,7 +20,7 @@ CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema({})}, extra=vol.ALLOW_EXTRA)
 
 
 def setup(hass: HomeAssistant, config: dict):
-    """Set up the Duka One component."""
+    """Set up the Duka Smartfan component."""
 
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = DukaEntityComponent(hass)
@@ -28,7 +28,7 @@ def setup(hass: HomeAssistant, config: dict):
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    """Set up Duka One from a config entry."""
+    """Set up Duka Smartfan from a config entry."""
 
     hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "fan"))
     hass.async_create_task(
@@ -47,8 +47,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
             ]
         )
     )
-    # if unload_ok:
-    #     hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
 
@@ -58,11 +56,11 @@ class DukaEntityComponent(EntityComponent):
 
     def __init__(self, hass):
         super(DukaEntityComponent, self).__init__(_LOGGER, DOMAIN, hass)
-        self._the_client = None
+        self._client = None
 
     @property
-    def the_client(self) -> DukaClient:
-        """Get the duka one client."""
-        if self._the_client is None:
-            self._the_client = DukaClient()
-        return self._the_client
+    def client(self) -> DukaClient:
+        """Get the duka smartfan client."""
+        if self._client is None:
+            self._client = DukaClient()
+        return self._client

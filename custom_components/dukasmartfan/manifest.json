@@ -1,22 +1,22 @@
 {
   "codeowners": [
-    "@dingusdk"
+    "@syre"
   ],
   "dependencies": [
     "frontend",
     "lovelace",
     "fan"
   ],
-  "domain": "dukaone",
+  "domain": "dukasmartfan",
   "version": "2024.1.0",
   "homeassistant": "2024.1.0",
-  "name": "Duka One",
+  "name": "Duka Smartfan",
   "config_flow": true,
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
-  "documentation": "https://github.com/dingusdk/ha-dukaone",
+  "documentation": "https://github.com/syre/ha-dukasmartfan",
   "requirements": [
-    "dukaonesdk==1.0.4"
+    "duka_smartfan_sdk @ git+https://github.com/syre/duka_smartfan_sdk.git@master#egg=duka_smartfan_sdk"
   ]
 }
