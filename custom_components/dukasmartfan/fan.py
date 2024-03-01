@@ -99,6 +99,15 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
         return False
 
     @property
+    def is_on(self):
+        """
+        Use is_active as proxy for is_on.
+        """
+        if self.device is None or not self.device.is_initialized():
+            return False
+        return self.device.is_active
+
+    @property
     def supported_features(self) -> int:
         """Flag supported features."""
         return self._supported_features
