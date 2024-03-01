@@ -64,6 +64,7 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
         """Initialize the Duka Smartfan fan."""
         super(DukaSmartFanFan, self).__init__(hass, device_id)
         self._name = name
+        self._is_active = None
         self._supported_features = 0
         hass.async_add_executor_job(self.initialize_device, password, ip_address)
 
@@ -74,9 +75,12 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
 
     def on_change(self, device: Device):
         """Callback when the duka smartfan change state"""
-        if self.hass is not None:
+        has_changed = False
+        if self._is_active != device.is_active:
+            self._is_active = device.is_active
+            has_changed = True
+        if self.hass is not None and has_changed:
             self.schedule_update_ha_state()
-        return
 
     @property
     def name(self):
@@ -103,9 +107,7 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
         """
         Use is_active as proxy for is_on.
         """
-        if self.device is None or not self.device.is_initialized():
-            return False
-        return self.device.is_active
+        return self._is_active
 
     @property
     def supported_features(self) -> int:
