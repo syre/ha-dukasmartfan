@@ -24,8 +24,12 @@ async def async_setup_entry(
 
     name = entry.data[CONF_NAME]
     device_id = entry.data[CONF_DEVICE_ID]
-    duka_smartfan_humidity_sensor = DukaSmartfanHumidity(hass, name, device_id)
-    duka_smartfan_temperature_sensor = DukaSmartfanTemperature(hass, name, device_id)
+    duka_smartfan_humidity_sensor = DukaSmartfanHumidity(
+        hass, name + " humidity", device_id
+    )
+    duka_smartfan_temperature_sensor = DukaSmartfanTemperature(
+        hass, name + "temperature", device_id
+    )
     if not (
         await duka_smartfan_humidity_sensor.wait_for_device_to_be_ready()
         or await duka_smartfan_temperature_sensor.wait_for_device_to_be_ready()
