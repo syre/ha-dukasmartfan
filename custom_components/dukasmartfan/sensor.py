@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
 ) -> None:
-    """Set up Duka Smartfan humidity sensor based on a config entry."""
+    """Set up Duka Smartfan humidity sensor and temperature sensor based on a config entry."""
 
     name = entry.data[CONF_NAME]
     device_id = entry.data[CONF_DEVICE_ID]
@@ -28,7 +28,7 @@ async def async_setup_entry(
         hass, name + " humidity", device_id
     )
     duka_smartfan_temperature_sensor = DukaSmartfanTemperature(
-        hass, name + "temperature", device_id
+        hass, name + " temperature", device_id
     )
     if not (
         await duka_smartfan_humidity_sensor.wait_for_device_to_be_ready()
@@ -76,13 +76,13 @@ class DukaSmartfanHumidity(Entity, DukaEntity):
 
     @property
     def name(self):
-        """Return then name"""
+        """Return the name"""
         return self._name
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._device_id
+        return self._device_id + "_humidity"
 
     @property
     def should_poll(self):
@@ -149,13 +149,13 @@ class DukaSmartfanTemperature(Entity, DukaEntity):
 
     @property
     def name(self):
-        """Return then name"""
+        """Return the name"""
         return self._name
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._device_id
+        return self._device_id + "_temperature"
 
     @property
     def should_poll(self):
