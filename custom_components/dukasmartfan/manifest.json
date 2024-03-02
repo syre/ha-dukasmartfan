@@ -17,6 +17,6 @@
   "homekit": {},
   "documentation": "https://github.com/syre/ha-dukasmartfan",
   "requirements": [
-    "duka_smartfan_sdk @ git+https://github.com/syre/duka_smartfan_sdk.git@9c5a472#egg=duka_smartfan_sdk"
+    "duka_smartfan_sdk @ git+https://github.com/syre/duka_smartfan_sdk.git@master#egg=duka_smartfan_sdk"
   ]
 }
