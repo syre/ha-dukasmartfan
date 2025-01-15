@@ -1,4 +1,5 @@
 """ """
+
 import asyncio
 import logging
 import time
@@ -6,7 +7,8 @@ from xmlrpc.client import boolean
 
 from duka_smartfan_sdk.device import Device
 from duka_smartfan_sdk.dukaclient import DukaClient
-from homeassistant.helpers.typing import HomeAssistantType
+
+from homeassistant.core import HomeAssistant
 
 from . import DukaEntityComponent
 from .const import DOMAIN
@@ -17,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 class DukaEntity:
     """Implement the base of a duka entity with a reference to a device"""
 
-    def __init__(self, hass: HomeAssistantType, device_id):
+    def __init__(self, hass: HomeAssistant, device_id):
         self._device_id = device_id
         self.device: Device = None
         component: DukaEntityComponent = hass.data[DOMAIN]

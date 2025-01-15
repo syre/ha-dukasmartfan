@@ -1,14 +1,8 @@
 {
-  "codeowners": [
-    "@syre"
-  ],
-  "dependencies": [
-    "frontend",
-    "lovelace",
-    "fan"
-  ],
+  "codeowners": ["@syre"],
+  "dependencies": ["frontend", "lovelace", "fan"],
   "domain": "dukasmartfan",
-  "version": "2024.1.0",
+  "version": "2024.11.0",
   "homeassistant": "2024.1.0",
   "name": "Duka Smartfan",
   "config_flow": true,

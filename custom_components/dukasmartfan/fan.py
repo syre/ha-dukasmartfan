@@ -3,6 +3,7 @@ Platform for Duka Smartfan fan.
 
 see http://www.dingus.dk for more information
 """
+
 import asyncio
 import logging
 import time
@@ -20,7 +21,7 @@ from homeassistant.const import (
     CONF_PASSWORD,
 )
 from homeassistant.helpers import entity_platform
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 
 from .dukaentity import DukaEntity
 
@@ -37,7 +38,7 @@ TOGGLE_BOOST_SCHEMA = vol.Schema({vol.Required(ATTR_ENTITY_ID): cv.entity_ids})
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Set up Duka One based on a config entry."""
 
