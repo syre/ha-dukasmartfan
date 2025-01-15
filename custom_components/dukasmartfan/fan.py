@@ -4,14 +4,12 @@ Platform for Duka Smartfan fan.
 see http://www.dingus.dk for more information
 """
 
-import asyncio
 import logging
-import time
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from duka_smartfan_sdk.device import Device
-from homeassistant.components.fan import PLATFORM_SCHEMA, FanEntity
+from homeassistant.components.fan import PLATFORM_SCHEMA, FanEntity, FanEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     ATTR_ENTITY_ID,
@@ -66,7 +64,7 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
         super(DukaSmartFanFan, self).__init__(hass, device_id)
         self._name = name
         self._is_active = None
-        self._supported_features = 0
+        self._supported_features = FanEntityFeature(0)
         hass.async_add_executor_job(self.initialize_device, password, ip_address)
 
     async def async_will_remove_from_hass(self):
