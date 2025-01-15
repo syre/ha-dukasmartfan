@@ -9,6 +9,7 @@
   "zeroconf": [],
   "homekit": {},
   "documentation": "https://github.com/syre/ha-dukasmartfan",
+  "issue_tracker": "https://github.com/syre/ha-dukasmartfan",
   "requirements": [
     "duka_smartfan_sdk @ git+https://github.com/syre/duka_smartfan_sdk.git@master#egg=duka_smartfan_sdk"
   ]
