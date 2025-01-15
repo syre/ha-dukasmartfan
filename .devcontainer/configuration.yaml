@@ -16,4 +16,4 @@ api:
 logger:
   default: warning
   logs:
-    custom_components.dukaone: debug
+    custom_components.dukasmartfan: debug

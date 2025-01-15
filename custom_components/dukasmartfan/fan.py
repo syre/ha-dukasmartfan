@@ -61,7 +61,7 @@ async def async_setup_entry(
 class DukaSmartFanFan(FanEntity, DukaEntity):
     """A Duka Smartfan fan component."""
 
-    def __init__(self, hass: HomeAssistantType, name, device_id, password, ip_address):
+    def __init__(self, hass: HomeAssistant, name, device_id, password, ip_address):
         """Initialize the Duka Smartfan fan."""
         super(DukaSmartFanFan, self).__init__(hass, device_id)
         self._name = name

@@ -1,10 +1,8 @@
 {
-  "name": "DukaOne",
+  "name": "DukaSmartFan",
   "image": "mcr.microsoft.com/devcontainers/python:dev-3.12-bookworm",
-  "workspaceFolder": "/workspaces/ha-dukaone",
-  "runArgs": [
-    "--network=host"
-  ],
+  "workspaceFolder": "/workspaces/ha-dukasmartfan",
+  "runArgs": ["--network=host"],
   "forwardPorts": [],
   "appPort": [
     //   "4000:4000/udp",
@@ -15,8 +13,8 @@
     "requirements": "pip3 install homeassistant"
   },
   "postStartCommand": {
-    "link_component": "ln -sf /workspaces/ha-dukaone/custom_components/ /workspaces/ha-dukaone/.config/",
-    "link_config": "ln -sf /workspaces/ha-dukaone/.devcontainer/configuration.yaml  /workspaces/ha-dukaone/.config/"
+    "link_component": "ln -sf /workspaces/ha-dukasmartfan/custom_components/ /workspaces/ha-dukasmartfan/.config/",
+    "link_config": "ln -sf /workspaces/ha-dukasmartfan/.devcontainer/configuration.yaml  /workspaces/ha-dukasmartfan/.config/"
   },
   "customizations": {
     "vscode": {
@@ -27,9 +25,7 @@
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         "files.trimTrailingWhitespace": true,
-        "yaml.customTags": [
-          "!secret scalar"
-        ]
+        "yaml.customTags": ["!secret scalar"]
       }
     },
     "extensions": [

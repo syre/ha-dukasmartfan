@@ -3,6 +3,7 @@ Sensor platform for Duka Smartfan fan.
 
 see http://www.dingus.dk for more information
 """
+
 import asyncio
 import logging
 import time
@@ -10,7 +11,7 @@ import time
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_DEVICE_ID, CONF_NAME
 from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 
 from .dukaentity import DukaEntity
 
@@ -18,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Set up Duka Smartfan humidity sensor and temperature sensor based on a config entry."""
 
@@ -44,7 +45,7 @@ async def async_setup_entry(
 class DukaSmartfanHumidity(Entity, DukaEntity):
     """A Duka Smartfan humidity sensor entity."""
 
-    def __init__(self, hass: HomeAssistantType, name: str, device_id: str):
+    def __init__(self, hass: HomeAssistant, name: str, device_id: str):
         """Initialize the Duka Smartfan fan."""
         super(DukaSmartfanHumidity, self).__init__(hass, device_id)
         self._name = name
@@ -117,7 +118,7 @@ class DukaSmartfanHumidity(Entity, DukaEntity):
 class DukaSmartfanTemperature(Entity, DukaEntity):
     """A Duka Smartfan humidity sensor entity."""
 
-    def __init__(self, hass: HomeAssistantType, name: str, device_id: str):
+    def __init__(self, hass: HomeAssistant, name: str, device_id: str):
         """Initialize the Duka Smartfan fan."""
         super(DukaSmartfanTemperature, self).__init__(hass, device_id)
         self._name = name
