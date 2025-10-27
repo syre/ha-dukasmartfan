@@ -7,6 +7,7 @@ see http://www.dingus.dk for more information
 import logging
 
 import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.config_validation import make_entity_service_schema
 import voluptuous as vol
 from duka_smartfan_sdk.device import Device
 from homeassistant.components.fan import PLATFORM_SCHEMA, FanEntity, FanEntityFeature
@@ -32,7 +33,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Optional(CONF_IP_ADDRESS, default="<broadcast>"): cv.string,
     }
 )
-TOGGLE_BOOST_SCHEMA = vol.Schema({vol.Required(ATTR_ENTITY_ID): cv.entity_ids})
+TOGGLE_BOOST_SCHEMA = make_entity_service_schema(
+    {vol.Required(ATTR_ENTITY_ID): cv.entity_ids}
+)
 
 
 async def async_setup_entry(
@@ -47,7 +50,7 @@ async def async_setup_entry(
     if ip_address is None or len(ip_address) == 0:
         ip_address = "<broadcast>"
 
-    platform = entity_platform.current_platform.get()
+    platform = entity_platform.async_get_current_platform()
     platform.async_register_entity_service(
         "toggle_boost", TOGGLE_BOOST_SCHEMA, "toggle_boost"
     )
