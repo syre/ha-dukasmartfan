@@ -83,17 +83,6 @@ class DukaSmartFanFan(FanEntity, DukaEntity):
         """
         return self._is_active
 
-    @property
-    def extra_state_attributes(self):
-        """Return the state attributes."""
-        if self.device is None or not self.device.is_initialized():
-            return {}
-        return {
-            "temperature": self.device.temperature,
-            "fan_speed": self.device.fan_speed,
-            "humidity": self.device.humidity,
-        }
-
     def turn_on(
         self,
         **kwargs,
