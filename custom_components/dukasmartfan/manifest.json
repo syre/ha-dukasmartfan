@@ -2,7 +2,7 @@
   "codeowners": ["@syre"],
   "dependencies": ["frontend", "lovelace", "fan"],
   "domain": "dukasmartfan",
-  "version": "2025.1.0",
+  "version": "2025.05.0",
   "name": "Duka Smartfan",
   "config_flow": true,
   "ssdp": [],
