@@ -45,11 +45,12 @@ async def async_setup_entry(
     duka_smartfan_fan_speed_sensor = DukaSmartfanFanSpeed(
         hass, name + " fan speed", device_id
     )
-    if not (
-        await duka_smartfan_humidity_sensor.wait_for_device_to_be_ready()
-        or await duka_smartfan_temperature_sensor.wait_for_device_to_be_ready()
-        or await duka_smartfan_fan_speed_sensor.wait_for_device_to_be_ready()
-    ):
+    humidity_ready = await duka_smartfan_humidity_sensor.wait_for_device_to_be_ready()
+    temperature_ready = (
+        await duka_smartfan_temperature_sensor.wait_for_device_to_be_ready()
+    )
+    fan_speed_ready = await duka_smartfan_fan_speed_sensor.wait_for_device_to_be_ready()
+    if not (humidity_ready or temperature_ready or fan_speed_ready):
         _LOGGER.error("Failed to setup dukasmartfan device")
         return
     async_add_entities(
@@ -110,6 +111,8 @@ class DukaSmartfanHumidity(SensorEntity, DukaEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
+        if self.device is None:
+            return None
         return self.device.humidity
 
     @property
@@ -165,6 +168,8 @@ class DukaSmartfanTemperature(SensorEntity, DukaEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
+        if self.device is None:
+            return None
         return self.device.temperature
 
     @property
@@ -219,6 +224,8 @@ class DukaSmartfanFanSpeed(SensorEntity, DukaEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
+        if self.device is None:
+            return None
         return self.device.fan_speed
 
     @property
