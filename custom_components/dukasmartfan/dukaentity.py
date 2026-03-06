@@ -3,14 +3,12 @@
 import asyncio
 import logging
 import time
-from xmlrpc.client import boolean
 
 from duka_smartfan_sdk.device import Device
 from duka_smartfan_sdk.dukaclient import DukaClient
-
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 
-from . import DukaEntityComponent
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -22,7 +20,9 @@ class DukaEntity:
     def __init__(self, hass: HomeAssistant, device_id):
         self._device_id = device_id
         self.device: Device = None
-        component: DukaEntityComponent = hass.data[DOMAIN]
+        from . import DukaData
+
+        component: DukaData = hass.data[DOMAIN]
         self.client: DukaClient = component.client
 
     def initialize_device(self, password: str, ip_address: str) -> None:
@@ -34,7 +34,7 @@ class DukaEntity:
             self.on_change,
         )
 
-    async def wait_for_device_to_be_ready(self) -> boolean:
+    async def wait_for_device_to_be_ready(self) -> bool:
         """Wait for the device to reponse to the initial get firmware version command."""
         timeout = time.time() + 10
         while self.device is None or self.device.firmware_version is None:
@@ -48,15 +48,14 @@ class DukaEntity:
         """Callback whe duka smartfan has changes - must be implemented in derived class"""
         raise NotImplementedError()
 
-    def dukasmartfan_device_info(self):
+    def dukasmartfan_device_info(self) -> DeviceInfo | None:
         """Return device information."""
         if self.device is None:
             return None
-        info = {
-            "name": "DukaSmartFan",
-            "identifiers": {(DOMAIN, self._device_id)},
-            "manufacturer": "Duka Ventilation",
-            "model": f"Type {self.device.unit_type}",
-            "sw_version": f"{self.device.firmware_version} {self.device.firmware_date}",
-        }
-        return info
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._device_id)},
+            name="DukaSmartFan",
+            manufacturer="Duka Ventilation",
+            model=f"Type {self.device.unit_type}",
+            sw_version=f"{self.device.firmware_version} {self.device.firmware_date}",
+        )

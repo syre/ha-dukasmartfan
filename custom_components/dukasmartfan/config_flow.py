@@ -12,7 +12,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 
-from . import DukaEntityComponent
+from . import DukaData
 from .const import CONF_STATICIP, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,8 +31,8 @@ DATA_SCHEMA = vol.Schema(
 def dovalidate(hass: HomeAssistant, user_input):
     """Validate if we can connect to the device"""
     if DOMAIN not in hass.data:
-        hass.data[DOMAIN] = DukaEntityComponent(hass)
-    component: DukaEntityComponent = hass.data[DOMAIN]
+        hass.data[DOMAIN] = DukaData()
+    component: DukaData = hass.data[DOMAIN]
 
     if user_input[CONF_IP_ADDRESS] is None or len(user_input[CONF_IP_ADDRESS]) == 0:
         user_input[CONF_IP_ADDRESS] = "<broadcast>"
@@ -51,7 +51,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Duka Smartfan."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""

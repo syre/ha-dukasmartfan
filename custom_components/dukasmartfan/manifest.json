@@ -1,14 +1,12 @@
 {
   "codeowners": ["@syre"],
-  "dependencies": ["frontend", "lovelace", "fan"],
+  "dependencies": [],
   "domain": "dukasmartfan",
   "version": "2025.05.0",
   "name": "Duka Smartfan",
   "config_flow": true,
-  "ssdp": [],
-  "zeroconf": [],
-  "homekit": {},
   "documentation": "https://github.com/syre/ha-dukasmartfan",
+  "iot_class": "local_push",
   "issue_tracker": "https://github.com/syre/ha-dukasmartfan",
   "requirements": [
     "duka_smartfan_sdk @ git+https://github.com/syre/duka_smartfan_sdk.git@master#egg=duka_smartfan_sdk"

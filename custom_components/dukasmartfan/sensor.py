@@ -8,10 +8,20 @@ import asyncio
 import logging
 import time
 
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_DEVICE_ID, CONF_NAME
-from homeassistant.helpers.entity import Entity
+from homeassistant.const import (
+    CONF_DEVICE_ID,
+    CONF_NAME,
+    PERCENTAGE,
+    UnitOfTemperature,
+)
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .dukaentity import DukaEntity
 
@@ -36,19 +46,26 @@ async def async_setup_entry(
         or await duka_smartfan_temperature_sensor.wait_for_device_to_be_ready()
     ):
         _LOGGER.error("Failed to setup dukasmartfan device")
-        return False
+        return
     async_add_entities(
         [duka_smartfan_humidity_sensor, duka_smartfan_temperature_sensor], True
     )
 
 
-class DukaSmartfanHumidity(Entity, DukaEntity):
+class DukaSmartfanHumidity(SensorEntity, DukaEntity):
     """A Duka Smartfan humidity sensor entity."""
 
+    _attr_device_class = SensorDeviceClass.HUMIDITY
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_native_unit_of_measurement = PERCENTAGE
+    _attr_icon = "mdi:water-percent"
+    _attr_should_poll = True
+    _attr_assumed_state = False
+
     def __init__(self, hass: HomeAssistant, name: str, device_id: str):
-        """Initialize the Duka Smartfan fan."""
+        """Initialize the Duka Smartfan humidity sensor."""
         super(DukaSmartfanHumidity, self).__init__(hass, device_id)
-        self._name = name
+        self._attr_name = name
 
     async def wait_for_device_to_be_ready(self):
         """Wait for the device to be initialized.
@@ -76,52 +93,34 @@ class DukaSmartfanHumidity(Entity, DukaEntity):
         return True
 
     @property
-    def name(self):
-        """Return the name"""
-        return self._name
-
-    @property
     def unique_id(self):
         """Return a unique ID."""
         return self._device_id + "_humidity"
 
     @property
-    def should_poll(self):
-        """We poll because the fan handle changes."""
-        return True
-
-    @property
-    def assumed_state(self):
-        """Return false if we do optimistic updates."""
-        return False
-
-    @property
-    def state(self):
+    def native_value(self):
         """Return the state of the sensor."""
         return self.device.humidity
 
     @property
-    def unit_of_measurement(self):
-        """Return the unit of measurement of this entity"""
-        return "%"
-
-    @property
-    def icon(self):
-        """Return the icon to use in the frontend."""
-        return "mdi:water-percent"
-
-    @property
-    def device_info(self):
+    def device_info(self) -> DeviceInfo | None:
         return self.dukasmartfan_device_info()
 
 
-class DukaSmartfanTemperature(Entity, DukaEntity):
-    """A Duka Smartfan humidity sensor entity."""
+class DukaSmartfanTemperature(SensorEntity, DukaEntity):
+    """A Duka Smartfan temperature sensor entity."""
+
+    _attr_device_class = SensorDeviceClass.TEMPERATURE
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+    _attr_icon = "mdi:thermometer"
+    _attr_should_poll = True
+    _attr_assumed_state = False
 
     def __init__(self, hass: HomeAssistant, name: str, device_id: str):
-        """Initialize the Duka Smartfan fan."""
+        """Initialize the Duka Smartfan temperature sensor."""
         super(DukaSmartfanTemperature, self).__init__(hass, device_id)
-        self._name = name
+        self._attr_name = name
 
     async def wait_for_device_to_be_ready(self):
         """Wait for the device to be initialized.
@@ -149,40 +148,15 @@ class DukaSmartfanTemperature(Entity, DukaEntity):
         return True
 
     @property
-    def name(self):
-        """Return the name"""
-        return self._name
-
-    @property
     def unique_id(self):
         """Return a unique ID."""
         return self._device_id + "_temperature"
 
     @property
-    def should_poll(self):
-        """We poll because the fan handle changes."""
-        return True
-
-    @property
-    def assumed_state(self):
-        """Return false if we do optimistic updates."""
-        return False
-
-    @property
-    def state(self):
+    def native_value(self):
         """Return the state of the sensor."""
         return self.device.temperature
 
     @property
-    def unit_of_measurement(self):
-        """Return the unit of measurement of this entity"""
-        return "°C"
-
-    @property
-    def icon(self):
-        """Return the icon to use in the frontend."""
-        return "mdi:thermometer"
-
-    @property
-    def device_info(self):
+    def device_info(self) -> DeviceInfo | None:
         return self.dukasmartfan_device_info()
